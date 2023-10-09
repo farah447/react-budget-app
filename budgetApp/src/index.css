@@ -1,6 +1,6 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  line-height: 2;
   font-weight: 400;
 
   color-scheme: light dark;
@@ -12,6 +12,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  margin-top: 20px ;
+  padding: 40px;
 }
 
 a {
@@ -21,6 +23,81 @@ a {
 }
 a:hover {
   color: #535bf2;
+}
+
+.IncomeForm{
+  float:left; 
+  display:inline; 
+  width: 33%;
+  line-height: 60px;
+}
+
+.IncomeForm form button{
+  margin-top: 20px;
+  margin-left: 100px;
+}
+.ExpenseForm{
+  float:left; 
+  display:inline; 
+  width: 33%;
+  line-height: 60px;
+}
+
+.ExpenseForm form button{
+  margin-top: 20px;
+  margin-left: 100px;
+}
+
+.TargetForSaving{
+  float:left; 
+  display:inline; 
+  width: 33%;
+  line-height: 60px;
+}
+
+.TargetForSaving form button{
+  margin-top: 20px;
+  margin-left: 100px;
+}
+
+.TransferForSavingForm{
+  float:left; 
+  width: 49%;
+  margin-left: 390px;
+  line-height: 60px;
+}
+.TransferForSavingForm input, label{
+  display:flex;
+  flex-direction:column;
+}
+
+.TransferForSavingForm form button{
+  margin-top: 20px;
+  margin-left: 100px;
+}
+
+input[type="text"] {
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 300px;
+}
+
+input[type="number"] {
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 300px;
+}
+
+input[type="date"] {
+  padding: 1em;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 300px;
 }
 
 body {
@@ -58,7 +135,7 @@ button:focus-visible {
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #ffffff;
+    background-color: #efe9e9;
   }
   a:hover {
     color: #747bff;
