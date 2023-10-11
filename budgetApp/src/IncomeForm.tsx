@@ -3,9 +3,9 @@ import {ChangeEvent, FormEvent, useState} from "react";
 
 const IncomeForm = () => {
     const [income, setIncome] = useState<IncomeExpenseTypes>({
-        source: '',
+        source: "",
         amount: 0,
-        date: '',
+        date: "",
     });
 
     const [incomes, setIncomes]= useState<IncomeExpenseTypes[]>([]);
@@ -13,26 +13,23 @@ const IncomeForm = () => {
 
     const handelChange = (event: ChangeEvent<HTMLInputElement>)=>{
         const {name, value} = event.target;
-        if(income.amount && income.source && income.date){
             setIncome((prevIncome) => {
-                return {...prevIncome,[name]: value};
+                return { ...prevIncome, [name]: value};
             });
-        }
     };
 
-    const handleSubmit = (event: FormEvent) =>{
+    const handelSubmit = (event: FormEvent) =>{
         event.preventDefault();
 
         if(income.amount && income.source && income.date){
-            setIncomes((prevIncomes) => {
-                return {...prevIncomes, income};
-            });
+            setIncomes((prevIncomes) => [...prevIncomes, income]);
+            setIncome({ source: "", amount: 0, date: "" });
         }
     };
 
     return (
     <div className="IncomeForm">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handelSubmit}>
             <div>
                 <label htmlFor="source"> Income source </label>
                 <input type="text" 
@@ -60,17 +57,16 @@ const IncomeForm = () => {
                 onChange={handelChange} 
                 required/>
             </div> 
-            <button>Add income</button>
+            <button type="submit">Add income</button>
         </form>
-
         <ul> 
-            { incomes.length > 0 ? (
+            {incomes.length > 0 ? (
             incomes.map((income, index) => (
                 <li key={index}>
                     {income.source}: {income.amount} EUR on {income.date} 
                 </li>
             ))
-            ):(
+            ) : (
                 <p> no data for income</p>
             )} 
         </ul>

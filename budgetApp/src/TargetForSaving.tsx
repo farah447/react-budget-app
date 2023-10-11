@@ -9,19 +9,19 @@ const TargetForSaving = () => {
     setTarget(Number(event.target.value));
   };
 
-  const handleSubmit = (event: FormEvent) =>{
+  const handelSubmit = (event: FormEvent) =>{
       event.preventDefault();
       setTarget(0);
   };
 
   return (
     <div className="TargetForSaving">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handelSubmit}>
             <div>
                 <label htmlFor="amount"> Set Target For Saving </label>
                 <input type="number" name="amount" id="amount" value={target} onChange={handelChange}/>
             </div> 
-            <button>Reset</button>
+            <button type="submit">Reset</button>
         </form>
         <p> Current saving: 100</p>
         <p> Target: {target}</p>

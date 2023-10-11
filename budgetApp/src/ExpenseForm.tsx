@@ -3,9 +3,9 @@ import {IncomeExpenseTypes} from './Types/componentTypes.ts';
 
 const ExpenseForm = () => {
         const [expense, setExpense] = useState<IncomeExpenseTypes>({
-            source: '',
+            source: "",
             amount: 0,
-            date: '',
+            date: "",
         });
     
         const [expenses, setExpenses]= useState<IncomeExpenseTypes[]>([]);
@@ -13,25 +13,22 @@ const ExpenseForm = () => {
     
         const handelChange = (event: ChangeEvent<HTMLInputElement>)=>{
             const {name, value} = event.target;
-            if(expense.amount && expense.source && expense.date){
                 setExpense((prevExpenses) => {
                     return {...prevExpenses,[name]: value};
                 });
-            }
         };
     
-        const handleSubmit = (event: FormEvent) =>{
+        const handelSubmit = (event: FormEvent) =>{
             event.preventDefault();
             if(expense.amount && expense.source && expense.date){
-                setExpenses((prevExpenses) => {
-                    return {...prevExpenses, expenses};
-                });
+                setExpenses((prevExpenses) => [...prevExpenses, expense]);
+                setExpense({ source: "", amount: 0, date: "" });
             }
         };
 
     return (
     <div className="ExpenseForm"> 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handelSubmit}>
             <div>
                 <label htmlFor="source"> Expense source </label>
                 <input type="text" name="source" id="source" value={expense.source} onChange={handelChange} required/>
@@ -44,7 +41,7 @@ const ExpenseForm = () => {
                 <label htmlFor="date"> Date of expense </label>
                 <input type="date" name="date" id="date" value={expense.date} onChange={handelChange} required/>
             </div> 
-            <button>Add expense</button>
+            <button type="submit">Add expense</button>
         </form>
         <ul> 
             { expenses.length > 0 ? (

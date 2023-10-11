@@ -9,7 +9,7 @@ const TransferForSavingForm = () => {
     setTransferAmount(Number(event.target.value));
   };
 
-  const handleSubmit = (event: FormEvent) =>{
+  const handelSubmit = (event: FormEvent) =>{
       event.preventDefault();
       setTransferAmount(0);
   };
@@ -17,12 +17,12 @@ const TransferForSavingForm = () => {
   return (
     <div className="TransferForSavingForm">
         <h3>Current Balance: 5930 </h3> 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handelSubmit}>
             <div>
                 <label htmlFor="amount"> Transfer For Saving Account </label>
                 <input type="number" name="amount" id="amount" value={transferAmount} onChange={handelChange}/>
             </div> 
-            <button>Transfer</button>
+            <button type="submit">Transfer</button>
         </form>
     </div>
   );
