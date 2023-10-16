@@ -1,3 +1,8 @@
+* {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 2;
@@ -41,6 +46,11 @@ a:hover {
   display:inline; 
   width: 33%;
   line-height: 60px;
+}
+
+.IncomeExpense{
+  float:left; 
+  display:inline; 
 }
 
 .ExpenseForm form button{

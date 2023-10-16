@@ -1,33 +1,45 @@
-import {ChangeEvent, FormEvent, useState} from "react";
+import { ChangeEvent, FormEvent, useState } from 'react';
 
-const TargetForSaving = () => {
+type TargetForSavingProps = {
+  saving: number;
+  setTargetSaving: (targetSaving: number) => void; // Corrected the prop name
+};
 
-  const [target, setTarget]= useState(0);
+const TargetForSaving = ({ saving, setTargetSaving }: TargetForSavingProps) => {
+  const [target, setTarget] = useState(0);
 
+  const progress = target === 0 ? 0 : (saving / target) * 100;
 
-  const handelChange = (event: ChangeEvent<HTMLInputElement>)=>{
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTarget(Number(event.target.value));
   };
 
-  const handelSubmit = (event: FormEvent) =>{
-      event.preventDefault();
-      setTarget(0);
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    setTargetSaving(target);
+    setTarget(0);
   };
 
   return (
-    <div className="TargetForSaving">
-        <form onSubmit={handelSubmit}>
-            <div>
-                <label htmlFor="amount"> Set Target For Saving </label>
-                <input type="number" name="amount" id="amount" value={target} onChange={handelChange}/>
-            </div> 
-            <button type="submit">Reset</button>
-        </form>
-        <p> Current saving: 100</p>
-        <p> Target: {target}</p>
-        <p> Progress: 5%</p>
-        <progress max={100} value={5}/>
-     </div>
+    <div className='TargetForSaving'>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="amount">Set Target For Saving</label>
+          <input
+            type="number"
+            name="amount"
+            id="amount"
+            value={target}
+            onChange={handleChange}
+          />
+        </div>
+        <button type="submit">Reset</button>
+      </form>
+      <p>Current saving: {saving}</p>
+      <p>Target: {target}</p>
+      <p>Progress: {isNaN(progress) ? 0 : Math.round(progress)}%</p>
+      <progress max={100} value={isNaN(progress) ? 0 : Math.round(progress)} />
+    </div>
   );
 };
 
