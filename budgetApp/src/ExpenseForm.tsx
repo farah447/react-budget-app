@@ -1,20 +1,19 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
+
 import { IncomeExpenseTypes } from './Types/componentTypes';
+import { v4 as uuidv4 } from 'uuid';
 
-type ExpenseFormProps = {
-  setExpenses: React.Dispatch<React.SetStateAction<IncomeExpenseTypes[]>>;
-  onDeleteExpense: (id: string) => void; 
-}
 
-const ExpenseForm = ({ setExpenses, onDeleteExpense }: ExpenseFormProps) => {
+
+const ExpenseForm = (props: { getExpenseAmount: (amount: number) => void }) => {
     const [expense, setExpense] = useState<IncomeExpenseTypes>({
     source: '',
     amount: 0,
     date: '',
-    id: '', 
+    id: '',
   });
 
-  const [expenses] = useState<IncomeExpenseTypes[]>([]);
+  const [expenses, setExpenses] = useState<IncomeExpenseTypes[]>([]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -27,12 +26,19 @@ const ExpenseForm = ({ setExpenses, onDeleteExpense }: ExpenseFormProps) => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (expense.amount > 0 && expense.source && expense.date) {
-      setExpenses((prevExpenses) => [...prevExpenses, expense]);
-      setExpense({ source: '', amount: 0, date: '', id: '' });
+      const newExpense = {...expense, id: uuidv4()}
+      setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
+      props.getExpenseAmount(expense.amount);
     } else {
       alert('Invalid input. Amount must be a positive number.');
     }
   };
+
+  const handleDelete =(id: string) =>{
+    const filteredIncomes = expenses.filter(expense => expense.id !== id);
+    setExpenses(filteredIncomes);  
+  }
+
 
   return (
     <div className="ExpenseForm">
@@ -74,10 +80,10 @@ const ExpenseForm = ({ setExpenses, onDeleteExpense }: ExpenseFormProps) => {
       </form>
       <ul>
         {expenses.length > 0 ? (
-          expenses.map((expense) => (
-            <li key={expense.id}>
-              {expense.source} - {expense.amount} EUR on {expense.date}
-              <button onClick={() => onDeleteExpense(expense.id)}>Delete</button>
+          expenses.map((expense, index) => (
+            <li key={index}>
+              {expense.source} : {expense.amount} EUR on {expense.date}
+              <button onClick={() => handleDelete(expense.id)}>Delete</button>
             </li>
           ))
         ) : (

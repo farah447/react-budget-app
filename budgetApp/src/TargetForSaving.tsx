@@ -1,25 +1,26 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 
-type TargetForSavingProps = {
-  saving: number;
-  setTargetSaving: (targetSaving: number) => void; // Corrected the prop name
-};
 
-const TargetForSaving = ({ saving, setTargetSaving }: TargetForSavingProps) => {
+const TargetForSaving = (props: { savingAmount: number }) => {
   const [target, setTarget] = useState(0);
 
-  const progress = target === 0 ? 0 : (saving / target) * 100;
-
+  const progress = () =>{
+    if (target) {
+      return (props.savingAmount / target) * 100;
+    } else {
+      return 0;
+    }
+  }
+  
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTarget(Number(event.target.value));
   };
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    setTargetSaving(target);
     setTarget(0);
   };
-
+  
   return (
     <div className='TargetForSaving'>
       <form onSubmit={handleSubmit}>
@@ -33,12 +34,12 @@ const TargetForSaving = ({ saving, setTargetSaving }: TargetForSavingProps) => {
             onChange={handleChange}
           />
         </div>
-        <button type="submit">Reset</button>
       </form>
-      <p>Current saving: {saving}</p>
+      <button type="submit">Reset</button>
+      <p>Current saving: {props.savingAmount}</p>
       <p>Target: {target}</p>
-      <p>Progress: {isNaN(progress) ? 0 : Math.round(progress)}%</p>
-      <progress max={100} value={isNaN(progress) ? 0 : Math.round(progress)} />
+      <p>Progress: {progress()}%</p>
+      <progress max={target} value={props.savingAmount}></progress>
     </div>
   );
 };

@@ -1,23 +1,18 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import { IncomeExpenseTypes } from './Types/componentTypes';
+import { v4 as uuidv4 } from 'uuid';
 
-type IncomeFormProps = {
-    setIncomes: React.Dispatch<React.SetStateAction<IncomeExpenseTypes[]>>;
-    onDeleteIncome: (id: string) => void;
-    currentBalance: number; // Add the currentBalance prop
-  };
-  
-  const IncomeForm = ({ setIncomes, onDeleteIncome, currentBalance }: IncomeFormProps) => {
+  const IncomeForm = (props: {getIncomeAmount: (amount:number) => void}) => {
     const [income, setIncome] = useState<IncomeExpenseTypes>({
       source: '',
       amount: 0,
       date: '',
-      id: '', // Added 'id' property
+      id: '',
     });
 
-  const [incomes] = useState<IncomeExpenseTypes[]>([]);
+  const [incomes, setIncomes] = useState<IncomeExpenseTypes[]>([]);
 
-  const handelChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setIncome((prevIncome) => ({
       ...prevIncome,
@@ -25,19 +20,28 @@ type IncomeFormProps = {
     }));
   };
 
-  const handelSubmit = (event: FormEvent) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (income.amount > 0 && income.source && income.date) {
-      setIncomes((prevIncomes) => [...prevIncomes, income]);
-      setIncome({ source: '', amount: 0, date: '', id: '' });
+      const newIncome = {...income, id: uuidv4()
+      }
+      setIncomes((prevIncomes) => [...prevIncomes, newIncome]);
+      props.getIncomeAmount(income.amount);
     } else {
       alert('Invalid input. Amount must be a positive number.');
     }
   };
 
+  const handleDelete = (id: string) => {
+    const deletedIncome = incomes.find((income) => income.id === id);
+    if (deletedIncome) {
+      setIncomes((prevIncomes) => prevIncomes.filter((income) => income.id !== id));
+    }
+  }
+  
   return (
     <div className="IncomeForm">
-      <form onSubmit={handelSubmit}>
+      <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="source"> Income source </label>
           <input
@@ -45,7 +49,7 @@ type IncomeFormProps = {
             name="source"
             id="source"
             value={income.source}
-            onChange={handelChange}
+            onChange={handleChange}
             required
           />
         </div>
@@ -56,7 +60,7 @@ type IncomeFormProps = {
             name="amount"
             id="amount"
             value={income.amount}
-            onChange={handelChange}
+            onChange={handleChange}
             required
           />
         </div>
@@ -67,7 +71,7 @@ type IncomeFormProps = {
             name="date"
             id="date"
             value={income.date}
-            onChange={handelChange}
+            onChange={handleChange}
             required
           />
         </div>
@@ -75,17 +79,16 @@ type IncomeFormProps = {
       </form>
       <ul>
         {incomes.length > 0 ? (
-          incomes.map((income) => (
-            <li key={income.id}>
-              {income.source} - {income.amount} EUR on {income.date}
-              <button onClick={() => onDeleteIncome(income.id)}>Delete</button>
+          incomes.map((income, index) => (
+            <li key= {index}>
+              {income.source} : {income.amount} EUR on {income.date}
+              <button onClick={() => {handleDelete(income.id)}}>Delete</button>
             </li>
           ))
         ) : (
           <p>No data for income</p>
         )}
       </ul>
-      <h3>Current Balance: {currentBalance} EUR</h3>
     </div>
   );
 };

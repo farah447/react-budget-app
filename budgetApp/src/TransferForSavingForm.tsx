@@ -1,11 +1,10 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 
-type TransferForSavingFormProps = {
-  balance: number;
-  onTransfer: (amount: number) => void; // Corrected the prop name
-};
 
-const TransferForSavingForm = ({ balance, onTransfer }: TransferForSavingFormProps) => {
+const TransferForSavingForm = (props: {
+  getSavingAmount: (amount: number) => void;
+  balance: number }) => {
+
   const [transferAmount, setTransferAmount] = useState<number>(0);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -14,17 +13,14 @@ const TransferForSavingForm = ({ balance, onTransfer }: TransferForSavingFormPro
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (transferAmount <= balance) {
-      onTransfer(transferAmount); // Use the onTransfer prop
-      setTransferAmount(0);
-    } else {
-      alert('Insufficient balance for transfer');
-    }
+    props.getSavingAmount(transferAmount);
+    setTransferAmount(0);
   };
+
 
   return (
     <div className="TransferForSavingForm">
-      <h3>Current Balance: {balance} </h3>
+      <h3 onChange={handleChange}>Current Balance: {props.balance} </h3>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="amount"> Transfer For Saving Account </label>
