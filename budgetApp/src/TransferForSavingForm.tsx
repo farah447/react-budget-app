@@ -3,7 +3,8 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 
 const TransferForSavingForm = (props: {
   getSavingAmount: (amount: number) => void;
-  balance: number }) => {
+  balance: number
+}) => {
 
   const [transferAmount, setTransferAmount] = useState<number>(0);
 
@@ -19,7 +20,7 @@ const TransferForSavingForm = (props: {
 
 
   return (
-    <div className="TransferForSavingForm">
+    <div className="TransferForSavingForm card">
       <h3 onChange={handleChange}>Current Balance: {props.balance} </h3>
       <form onSubmit={handleSubmit}>
         <div>

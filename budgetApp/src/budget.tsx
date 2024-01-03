@@ -27,6 +27,7 @@ const Budget = () => {
 
     return (
         <div>
+            <h1>Budget App</h1>
             <IncomeForm getIncomeAmount={getIncomeAmount}></IncomeForm>
             <ExpenseForm getExpenseAmount={getExpenseAmount}></ExpenseForm>
             <TargetForSaving savingAmount={savingAmount}></TargetForSaving>
@@ -36,8 +37,8 @@ const Budget = () => {
             ></TransferForSavingForm>
         </div>
     );
-    };
+};
 
-    export default Budget;
+export default Budget;
 
 

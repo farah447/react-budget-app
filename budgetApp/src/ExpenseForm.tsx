@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 
 const ExpenseForm = (props: { getExpenseAmount: (amount: number) => void }) => {
-    const [expense, setExpense] = useState<IncomeExpenseTypes>({
+  const [expense, setExpense] = useState<IncomeExpenseTypes>({
     source: '',
     amount: 0,
     date: '',
@@ -26,7 +26,7 @@ const ExpenseForm = (props: { getExpenseAmount: (amount: number) => void }) => {
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (expense.amount > 0 && expense.source && expense.date) {
-      const newExpense = {...expense, id: uuidv4()}
+      const newExpense = { ...expense, id: uuidv4() }
       setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
       props.getExpenseAmount(expense.amount);
     } else {
@@ -34,14 +34,14 @@ const ExpenseForm = (props: { getExpenseAmount: (amount: number) => void }) => {
     }
   };
 
-  const handleDelete =(id: string) =>{
+  const handleDelete = (id: string) => {
     const filteredIncomes = expenses.filter(expense => expense.id !== id);
-    setExpenses(filteredIncomes);  
+    setExpenses(filteredIncomes);
   }
 
 
   return (
-    <div className="ExpenseForm">
+    <div className="ExpenseForm card">
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="source"> Expense source </label>

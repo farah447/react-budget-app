@@ -2,13 +2,13 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { IncomeExpenseTypes } from './Types/componentTypes';
 import { v4 as uuidv4 } from 'uuid';
 
-  const IncomeForm = (props: {getIncomeAmount: (amount:number) => void}) => {
-    const [income, setIncome] = useState<IncomeExpenseTypes>({
-      source: '',
-      amount: 0,
-      date: '',
-      id: '',
-    });
+const IncomeForm = (props: { getIncomeAmount: (amount: number) => void }) => {
+  const [income, setIncome] = useState<IncomeExpenseTypes>({
+    source: '',
+    amount: 0,
+    date: '',
+    id: '',
+  });
 
   const [incomes, setIncomes] = useState<IncomeExpenseTypes[]>([]);
 
@@ -23,7 +23,8 @@ import { v4 as uuidv4 } from 'uuid';
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (income.amount > 0 && income.source && income.date) {
-      const newIncome = {...income, id: uuidv4()
+      const newIncome = {
+        ...income, id: uuidv4()
       }
       setIncomes((prevIncomes) => [...prevIncomes, newIncome]);
       props.getIncomeAmount(income.amount);
@@ -38,9 +39,9 @@ import { v4 as uuidv4 } from 'uuid';
       setIncomes((prevIncomes) => prevIncomes.filter((income) => income.id !== id));
     }
   }
-  
+
   return (
-    <div className="IncomeForm">
+    <div className="IncomeForm card">
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="source"> Income source </label>
@@ -80,9 +81,9 @@ import { v4 as uuidv4 } from 'uuid';
       <ul>
         {incomes.length > 0 ? (
           incomes.map((income, index) => (
-            <li key= {index}>
+            <li key={index}>
               {income.source} : {income.amount} EUR on {income.date}
-              <button onClick={() => {handleDelete(income.id)}}>Delete</button>
+              <button onClick={() => { handleDelete(income.id) }}>Delete</button>
             </li>
           ))
         ) : (
